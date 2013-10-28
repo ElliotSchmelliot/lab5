@@ -7,6 +7,7 @@ $(function() {
         var sortBy = sortBtn.attr('data-sortby');
         sortObjArray(Employees.entries, sortBy);
         render(Employees.entries);
+        //sortBtn.siblings(".active").removeClass("active");
         $(".active").removeClass("active");
         sortBtn.addClass("active");
     });
