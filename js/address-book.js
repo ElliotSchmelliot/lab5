@@ -1,6 +1,23 @@
-/* address-book.js
-    this is where you will add your JavaScript to complete Lab 5
-*/
+$(function() {
+    sortObjArray(Employees.entries, "last");
+    render(Employees.entries);
+
+    $(".sort-ui .btn").click(function() {
+        var sortBtn = $(this);
+        var sortBy = sortBtn.attr('data-sortby');
+        sortObjArray(Employees.entries, sortBy);
+        render(Employees.entries);
+        $(".active").removeClass("active");
+        sortBtn.addClass("active");
+    });
+
+    $('.sort-ui .btn').popover({
+        content: function() { return "Click to resort by " + $(this).html()},
+        container: 'body',
+        trigger: 'hover',
+        placement: 'bottom'
+    });
+});
 
 
 /* sortObjArray()
@@ -34,3 +51,24 @@ function sortObjArray(objArray, propName) {
     });
 } //sortObjArray()
 
+function render(entries) {
+    var $template = $(".template");
+    var $container = $(".address-book");
+    var $instance;
+    $container.hide();
+    $container.empty();
+    $.each(entries, function() {
+        $instance = $template.clone();
+        $instance.find(".first").html(this.first);
+        $instance.find(".last").html(this.last);
+        $instance.find(".title").html(this.title);
+        $instance.find(".dept").html(this.dept);
+        $instance.find(".pic").attr({
+            src: this.pic,
+            alt: "picture of " + this.first + " " + this.last
+        });
+        $instance.removeClass("template");
+        $container.append($instance);
+        $container.fadeIn("slow");
+    });
+}
